@@ -73,3 +73,17 @@ module "eks" {
   ]
 }
 
+resource "random_pet" "bucket" {
+  length = 2
+}
+
+resource "aws_s3_bucket" "vulns_bucket" {
+  bucket = "project2-vulns-${random_pet.bucket.id}"
+}
+
+resource "aws_s3_bucket_object" "vulns_file" {
+  bucket = aws_s3_bucket.vulns_bucket.id
+  key    = "example.json"
+  source = "../example.json"
+}
+
