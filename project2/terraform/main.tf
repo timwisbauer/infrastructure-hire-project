@@ -87,3 +87,6 @@ resource "aws_s3_bucket_object" "vulns_file" {
   source = "../example.json"
 }
 
+resource "aws_ecr_repository" "contrast-project2" {
+  name = "contrast-project2"
+}
