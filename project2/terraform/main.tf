@@ -62,7 +62,7 @@ module "eks" {
   cluster_version = "1.18"
   subnets         = module.vpc.private_subnets
   vpc_id          = module.vpc.vpc_id
-  enable_irsa     = false
+  enable_irsa     = true
 
   worker_groups = [
     {
