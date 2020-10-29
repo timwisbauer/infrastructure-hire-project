@@ -89,4 +89,12 @@ resource "aws_s3_bucket_object" "vulns_file" {
 
 resource "aws_ecr_repository" "vulns_app" {
   name = "vulns-app"
+
+  provisioner "local-exec" {
+    command = <<EOF
+    aws ecr get-login-password | docker login --username AWS --password-stdin ${aws_ecr_repository.vulns_app.repository_url}
+    docker tag vulns-app ${aws_ecr_repository.vulns_app.repository_url}
+    docker push ${aws_ecr_repository.vulns_app.repository_url}
+    EOF
+  }
 }
