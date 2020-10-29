@@ -28,9 +28,9 @@ resource "kubernetes_deployment" "vulns_app" {
         container {
           image = aws_ecr_repository.vulns_app.repository_url
           name  = "vulns-app"
-                  port {
-                     container_port = 8080
-                   }
+          port {
+            container_port = 8080
+          }
           env {
             name  = "S3_BUCKET_NAME"
             value = aws_s3_bucket.vulns_bucket.id
@@ -38,6 +38,15 @@ resource "kubernetes_deployment" "vulns_app" {
           env {
             name  = "S3_OBJECT_KEY"
             value = aws_s3_bucket_object.vulns_file.key
+          }
+          liveness_probe {
+            http_get {
+              path = "/"
+              port = 8080
+            }
+
+            initial_delay_seconds = 5
+            period_seconds        = 3
           }
 
         }
