@@ -61,3 +61,29 @@ resource "kubernetes_service" "proxy" {
 
   }
 }
+
+resource "kubernetes_ingress" "proxy" {
+  metadata {
+    name      = "proxy"
+    namespace = local.k8s_service_account_namespace
+    annotations = {
+      "kubernetes.io/ingress.class"           = "alb"
+      "alb.ingress.kubernetes.io/scheme"      = "internet-facing"
+      "alb.ingress.kubernetes.io/target-type" = "ip"
+    }
+  }
+
+  spec {
+    rule {
+      http {
+        path {
+          path = "/*"
+          backend {
+            service_name = "proxy"
+            service_port = "80"
+          }
+        }
+      }
+    }
+  }
+}
