@@ -1,14 +1,3 @@
-resource "kubernetes_config_map" "s3_vulns_location" {
-  metadata {
-    name = "s3-vulns-location"
-  }
-
-  data = {
-    S3_BUCKET_NAME = aws_s3_bucket.vulns_bucket.id
-    S3_OBJECT_KEY  = aws_s3_bucket_object.vulns_file.key
-  }
-}
-
 resource "kubernetes_deployment" "vulns_app" {
   metadata {
     name      = "vulns-app"
