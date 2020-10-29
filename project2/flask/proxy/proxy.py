@@ -10,9 +10,9 @@ def health_check():
 @app.route('/vulns')
 def vulnerability_proxy():
     """
-    TODO: Implement get request to backend vulnerability service
+    Sends get request to backend vulnerability service
     """
-    pass
+    return get('http://vulns-app.vulns-app/').content    
 
 @app.route('/evil')
 def evil_proxy():
@@ -20,3 +20,7 @@ def evil_proxy():
     A function to serve a generic nginx page
     """
     get("http://nginx")
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8081)
+

@@ -98,3 +98,16 @@ resource "aws_ecr_repository" "vulns_app" {
     EOF
   }
 }
+
+
+resource "aws_ecr_repository" "proxy" {
+  name = "proxy"
+
+  provisioner "local-exec" {
+    command = <<EOF
+    aws ecr get-login-password | docker login --username AWS --password-stdin ${aws_ecr_repository.proxy.repository_url}
+    docker tag proxy ${aws_ecr_repository.proxy.repository_url}
+    docker push ${aws_ecr_repository.proxy.repository_url}
+    EOF
+  }
+}
