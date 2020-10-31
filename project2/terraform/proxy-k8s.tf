@@ -1,3 +1,7 @@
+###########
+# Kubernetes resources for proxy app.
+###########
+
 resource "kubernetes_deployment" "proxy" {
   metadata {
     name      = "proxy"

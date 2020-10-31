@@ -1,3 +1,7 @@
+###########
+# Kubernetes resources for vulns app.
+###########
+
 resource "kubernetes_deployment" "vulns_app" {
   metadata {
     name      = "vulns-app"
@@ -66,7 +70,7 @@ resource "kubernetes_deployment" "vulns_app" {
 resource "kubernetes_service" "vulns_app" {
   metadata {
     name      = "vulns-app"
-    namespace = "vulns-app"
+    namespace = local.k8s_service_account_namespace
   }
 
   spec {

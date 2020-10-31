@@ -81,6 +81,10 @@ module "eks" {
   ]
 }
 
+###########
+# S3 bucket to hold vulnerability information.
+###########
+
 resource "random_pet" "bucket" {
   length = 2
 }
@@ -95,6 +99,10 @@ resource "aws_s3_bucket_object" "vulns_file" {
   source = "../example.json"
 }
 
+###########
+# Container image repository for vulnerability app.
+###########
+
 resource "aws_ecr_repository" "vulns_app" {
   name = "vulns-app"
 
@@ -107,6 +115,9 @@ resource "aws_ecr_repository" "vulns_app" {
   }
 }
 
+###########
+# Container image repository for proxy app.
+###########
 
 resource "aws_ecr_repository" "proxy" {
   name = "proxy"
@@ -119,6 +130,10 @@ resource "aws_ecr_repository" "proxy" {
     EOF
   }
 }
+
+###########
+# Installs ALB ingress controller in EKS cluster.
+###########
 
 module "alb_ingress_controller" {
   source  = "iplabs/alb-ingress-controller/kubernetes"
