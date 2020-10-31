@@ -64,6 +64,14 @@ module "eks" {
   vpc_id          = module.vpc.vpc_id
   enable_irsa     = true
 
+  cluster_enabled_log_types = [
+    "api",
+    "audit",
+    "authenticator",
+    "controllerManager",
+    "scheduler"
+  ]
+
   worker_groups = [
     {
       name                 = "worker-group-1"
