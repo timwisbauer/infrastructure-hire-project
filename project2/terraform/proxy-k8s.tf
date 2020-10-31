@@ -27,7 +27,7 @@ resource "kubernetes_deployment" "proxy" {
           port {
             container_port = 8081
           }
-          liveness_probe {
+          readiness_probe {
             http_get {
               path = "/test"
               port = 8081
@@ -36,7 +36,14 @@ resource "kubernetes_deployment" "proxy" {
             initial_delay_seconds = 5
             period_seconds        = 3
           }
-
+          resources {
+            limits {
+              memory = "512Mi"
+            }
+            requests {
+              memory = "512Mi"
+            }
+          }
         }
       }
     }
@@ -70,6 +77,7 @@ resource "kubernetes_ingress" "proxy" {
       "kubernetes.io/ingress.class"           = "alb"
       "alb.ingress.kubernetes.io/scheme"      = "internet-facing"
       "alb.ingress.kubernetes.io/target-type" = "ip"
+      "alb.ingress.kubernetes.io/healthcheck-path" = "/test"
     }
   }
 
@@ -86,4 +94,6 @@ resource "kubernetes_ingress" "proxy" {
       }
     }
   }
+  wait_for_load_balancer = true
 }
+

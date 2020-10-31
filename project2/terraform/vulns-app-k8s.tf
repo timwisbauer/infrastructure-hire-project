@@ -39,7 +39,7 @@ resource "kubernetes_deployment" "vulns_app" {
             name  = "S3_OBJECT_KEY"
             value = aws_s3_bucket_object.vulns_file.key
           }
-          liveness_probe {
+          readiness_probe {
             http_get {
               path = "/"
               port = 8080
@@ -47,6 +47,14 @@ resource "kubernetes_deployment" "vulns_app" {
 
             initial_delay_seconds = 5
             period_seconds        = 3
+          }
+          resources {
+            limits {
+              memory = "512Mi"
+            }
+            requests {
+              memory = "512Mi"
+            }
           }
 
         }
