@@ -10,9 +10,16 @@ def health_check():
 @app.route('/vulns')
 def vulnerability_proxy():
     """
-    Sends get request to backend vulnerability service
+    Sends get request to backend vulnerability service for vulns endpoint.
     """
     return get('http://vulns-app.vulns-app/').content    
+
+@app.route('/stats')
+def stats_proxy():
+    """
+    Sends get request to backend vulnerability service for stats endpoint.
+    """
+    return get('http://vulns-app.vulns-app/stats').content    
 
 @app.route('/evil')
 def evil_proxy():
