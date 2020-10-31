@@ -19,7 +19,7 @@ def evil_proxy():
     """
     A function to serve a generic nginx page
     """
-    get("http://nginx")
+    return get("http://nginx").content
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8081)
