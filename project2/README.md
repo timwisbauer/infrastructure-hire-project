@@ -82,3 +82,6 @@ For a senior candidate we'd like to explore more into your Kubernetes knowledge.
 - [ ] Set up autoscaling.  Install metrics-server and configure horizontal pod autoscalers (along with pod CPU requests).  Also configure cluster autoscaling.
 - [ ] ALB improvements.  HTTPS, redirect HTTP to HTTPS, redirect root URL.
 - [ ] Export pod logs to CloudWatch.
+- [ ] Add SSM instance profile to worker configuration.  Allows for SSH access through SSM.
+- [ ] Tagging policy for resources.
+- [ ] Lambda possibilities - Run on upload of file to S3 bucket.  Using Lambda and API Gateway to run Flask vulns-app.
