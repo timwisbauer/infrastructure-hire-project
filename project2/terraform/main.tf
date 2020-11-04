@@ -72,6 +72,16 @@ module "eks" {
     "scheduler"
   ]
 
+  kubeconfig_aws_authenticator_command = "aws"
+  kubeconfig_aws_authenticator_command_args = [
+    "eks",
+    "get-token",
+    "--region",
+    var.region,
+    "--cluster-name",
+    local.cluster_name
+  ]
+
   worker_groups = [
     {
       name                 = "worker-group-1"
@@ -79,6 +89,21 @@ module "eks" {
       asg_desired_capacity = 1
     }
   ]
+}
+
+###########
+# Install Calico.
+###########
+
+resource "null_resource" "calico" {
+  provisioner "local-exec" {
+    command = "kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7/calico.yaml --kubeconfig ${module.eks.kubeconfig_filename}"
+  }
+  triggers = {
+    arn = module.eks.cluster_arn
+  }
+
+  depends_on = [module.eks]
 }
 
 ###########

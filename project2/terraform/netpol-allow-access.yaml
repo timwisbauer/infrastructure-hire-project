@@ -1,0 +1,33 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: proxy
+  namespace: vulns-app
+spec:
+  podSelector:
+    matchLabels: {
+      app: proxy
+    }
+  ingress:
+    - {}
+  policyTypes:
+    - Ingress
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: vulns-app
+  namespace: vulns-app
+spec:
+  podSelector:
+    matchLabels: {
+      app: vulns-app
+    }
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: proxy
+  policyTypes:
+    - Ingress
+    

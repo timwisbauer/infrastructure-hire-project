@@ -31,12 +31,19 @@ You will need the following:
 6. `terraform apply`
 7. After a few minutes, Terraform will display the hostname to access the web applications.  Note: You may need to wait a couple of minutes for DNS replication to finish.
 
-URL Endpoints:  
-/test - Displays "it works!" from proxy.  
-/vulns - Displays vulnerability information from vulns-app.  
-/stats - Displays counts of vulnerability severity per vendor from vulns-app.  
-/evil - nginx start page.  
+    URL Endpoints:  
+    /test - Displays "it works!" from proxy.  
+    /vulns - Displays vulnerability information from vulns-app.  
+    /stats - Displays counts of vulnerability severity per vendor from vulns-app.  
+    /evil - nginx start page.  
 
+1. Calico is already installed, but no policies are applied yet so all endpoints are reachable.  Apply the default-deny ingress network policy to the vulns-app namespace.
+   `kubectl apply -f ./netpol-default-deny.yaml --kubeconfig ./kubeconfig_contrast-project2`
+1. Validate none of the endpoints return data.
+2. Apply the allow-access policy to allow the proxy app to send requests to the vulns-app app.  
+   `kubectl apply -f ./netpol-allow-access.yaml`
+3. Validate all endpoints except for /evil now return data.
+   
 # Tasks
 
 - [X] Create an S3 bucket in Terraform (this will be used by the container running in EKS)
@@ -74,11 +81,11 @@ For a senior candidate we'd like to explore more into your Kubernetes knowledge.
 
 - [X] Deploy a basic NGINX service and test you can get access via GET /evil endpoint
   
-- [ ] Utilizing a CNI or service mesh and restrict access from the proxy service to the nginx service
+- [X] Utilizing a CNI or service mesh and restrict access from the proxy service to the nginx service
 
 # Next steps
 
-- [ ] Install Calico and implement network policies restricting access between pods to only what is required.  An alternative would be using EC2 Security Groups, but they aren't supported on the selected instance type and have other limitations around the number of pods on each node.
+- [X] Install Calico and implement network policies restricting access between pods to only what is required.  An alternative would be using EC2 Security Groups, but they aren't supported on the selected instance type and have other limitations around the number of pods on each node.
 - [ ] Set up autoscaling.  Install metrics-server and configure horizontal pod autoscalers (along with pod CPU requests).  Also configure cluster autoscaling.
 - [ ] ALB improvements.  HTTPS, redirect HTTP to HTTPS, redirect root URL.
 - [ ] Export pod logs to CloudWatch.
