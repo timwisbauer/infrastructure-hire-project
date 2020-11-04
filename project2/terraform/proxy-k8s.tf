@@ -5,7 +5,7 @@
 resource "kubernetes_deployment" "proxy" {
   metadata {
     name      = "proxy"
-    namespace = local.k8s_service_account_namespace
+    namespace = kubernetes_namespace.vulns-app.id
   }
 
   spec {
@@ -57,7 +57,7 @@ resource "kubernetes_deployment" "proxy" {
 resource "kubernetes_service" "proxy" {
   metadata {
     name      = "proxy"
-    namespace = local.k8s_service_account_namespace
+    namespace = kubernetes_namespace.vulns-app.id
   }
 
   spec {
@@ -76,11 +76,11 @@ resource "kubernetes_service" "proxy" {
 resource "kubernetes_ingress" "proxy" {
   metadata {
     name      = "proxy"
-    namespace = local.k8s_service_account_namespace
+    namespace = kubernetes_namespace.vulns-app.id
     annotations = {
-      "kubernetes.io/ingress.class"           = "alb"
-      "alb.ingress.kubernetes.io/scheme"      = "internet-facing"
-      "alb.ingress.kubernetes.io/target-type" = "ip"
+      "kubernetes.io/ingress.class"                = "alb"
+      "alb.ingress.kubernetes.io/scheme"           = "internet-facing"
+      "alb.ingress.kubernetes.io/target-type"      = "ip"
       "alb.ingress.kubernetes.io/healthcheck-path" = "/test"
     }
   }

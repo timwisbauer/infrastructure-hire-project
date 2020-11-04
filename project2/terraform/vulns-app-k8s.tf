@@ -5,7 +5,7 @@
 resource "kubernetes_deployment" "vulns_app" {
   metadata {
     name      = "vulns-app"
-    namespace = local.k8s_service_account_namespace
+    namespace = kubernetes_namespace.vulns-app.id
   }
 
   spec {

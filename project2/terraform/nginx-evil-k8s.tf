@@ -31,11 +31,11 @@ resource "kubernetes_deployment" "nginx" {
           port {
             container_port = 80
           }
-          }
         }
       }
     }
   }
+}
 
 resource "kubernetes_service" "nginx" {
   metadata {
